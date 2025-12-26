@@ -1,8 +1,10 @@
 // Game constants
 const GAME_CONSTANTS = {
-    COLLISION_THRESHOLD: 50,  // pixels
-    RIGHT_EDGE_BOUNDARY: 900, // pixels
-    OFF_SCREEN_LEFT: -50      // pixels
+    COLLISION_THRESHOLD: 50,     // pixels
+    RIGHT_EDGE_BOUNDARY: 900,    // pixels
+    OFF_SCREEN_LEFT: -50,        // pixels
+    SERVE_ANIMATION_DURATION: 300, // milliseconds
+    CUSTOMER_LEAVE_DURATION: 1000  // milliseconds
 };
 
 // Game state
@@ -40,6 +42,7 @@ function init() {
     // Clear existing interval if any
     if (game.spawnIntervalId) {
         clearInterval(game.spawnIntervalId);
+        game.spawnIntervalId = null;
     }
     
     // Start game loop
@@ -66,7 +69,7 @@ document.getElementById('restart-btn').addEventListener('click', () => {
 function serveSoup(laneIndex) {
     const player = document.getElementById(`player-${laneIndex}`);
     player.classList.add('serving');
-    setTimeout(() => player.classList.remove('serving'), 300);
+    setTimeout(() => player.classList.remove('serving'), GAME_CONSTANTS.SERVE_ANIMATION_DURATION);
     
     // Create soup bowl
     const bowl = {
@@ -171,7 +174,7 @@ function gameLoop() {
                 customer.element.classList.add('leaving');
                 setTimeout(() => {
                     customer.element.remove();
-                }, 1000);
+                }, GAME_CONSTANTS.CUSTOMER_LEAVE_DURATION);
                 customers.splice(i, 1);
                 gameOver();
                 return;
