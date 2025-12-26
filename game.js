@@ -1,3 +1,10 @@
+// Game constants
+const GAME_CONSTANTS = {
+    COLLISION_THRESHOLD: 50,  // pixels
+    RIGHT_EDGE_BOUNDARY: 900, // pixels
+    OFF_SCREEN_LEFT: -50      // pixels
+};
+
 // Game state
 const game = {
     score: 0,
@@ -8,7 +15,8 @@ const game = {
     bowlSpeed: 3,             // pixels per frame
     customerSpawnInterval: 2000, // milliseconds
     customerTimer: 30,        // seconds before customer leaves
-    lastSpawnTime: 0
+    lastSpawnTime: 0,
+    spawnIntervalId: null     // Store interval ID for cleanup
 };
 
 // Key mappings for lanes
@@ -29,11 +37,16 @@ function init() {
     updateScore();
     document.getElementById('game-over').classList.remove('show');
     
+    // Clear existing interval if any
+    if (game.spawnIntervalId) {
+        clearInterval(game.spawnIntervalId);
+    }
+    
     // Start game loop
     requestAnimationFrame(gameLoop);
     
     // Start customer spawning
-    setInterval(spawnCustomer, game.customerSpawnInterval);
+    game.spawnIntervalId = setInterval(spawnCustomer, game.customerSpawnInterval);
 }
 
 // Handle keyboard input
@@ -124,7 +137,7 @@ function checkCollision(bowl, customer) {
     const customerPos = customer.position;
     
     // Check if bowl has reached customer (within range)
-    return Math.abs(bowlPos - customerPos) < 50;
+    return Math.abs(bowlPos - customerPos) < GAME_CONSTANTS.COLLISION_THRESHOLD;
 }
 
 // Main game loop
@@ -165,7 +178,7 @@ function gameLoop() {
             }
             
             // Check if customer reached the end (right side)
-            if (customer.position > 900) {
+            if (customer.position > GAME_CONSTANTS.RIGHT_EDGE_BOUNDARY) {
                 customer.element.remove();
                 customers.splice(i, 1);
                 gameOver();
@@ -205,7 +218,7 @@ function gameLoop() {
             }
             
             // Remove bowl if it went off screen
-            if (!hitCustomer && bowl.position < -50) {
+            if (!hitCustomer && bowl.position < GAME_CONSTANTS.OFF_SCREEN_LEFT) {
                 bowl.element.remove();
                 bowls.splice(i, 1);
             }
