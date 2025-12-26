@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Souper Tapper - Soup Serving Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🥣 Souper Tapper 🥣</h1>
+            <div class="game-info">
+                <div class="score">Score: <span id="score">0</span></div>
+                <div class="controls-info">Controls: A, S, D, F keys for lanes 1-4</div>
+            </div>
+        </div>
+        
+        <div id="game-board">
+            <div class="lane" id="lane-0" data-lane="0">
+                <div class="player-zone">
+                    <div class="player" id="player-0">🧑‍🍳</div>
+                </div>
+                <div class="customer-zone"></div>
+            </div>
+            <div class="lane" id="lane-1" data-lane="1">
+                <div class="player-zone">
+                    <div class="player" id="player-1">🧑‍🍳</div>
+                </div>
+                <div class="customer-zone"></div>
+            </div>
+            <div class="lane" id="lane-2" data-lane="2">
+                <div class="player-zone">
+                    <div class="player" id="player-2">🧑‍🍳</div>
+                </div>
+                <div class="customer-zone"></div>
+            </div>
+            <div class="lane" id="lane-3" data-lane="3">
+                <div class="player-zone">
+                    <div class="player" id="player-3">🧑‍🍳</div>
+                </div>
+                <div class="customer-zone"></div>
+            </div>
+        </div>
+
+        <div class="game-over-overlay" id="game-over">
+            <div class="game-over-content">
+                <h2>Game Over!</h2>
+                <p>Final Score: <span id="final-score">0</span></p>
+                <button id="restart-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
