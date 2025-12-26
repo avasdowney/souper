@@ -142,7 +142,7 @@ body {
 
 .soup-bowl {
     position: absolute;
-    left: 80px; /* Must match GAME_CONSTANTS.BOWL_START_POSITION in game.js */
+    left: 1050px; /* Must match GAME_CONSTANTS.BOWL_START_POSITION in game.js */
     top: 50%;
     transform: translateY(-50%);
     font-size: 2em;
