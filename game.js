@@ -3,6 +3,7 @@ const GAME_CONSTANTS = {
     COLLISION_THRESHOLD: 50,     // pixels
     RIGHT_EDGE_BOUNDARY: 900,    // pixels
     OFF_SCREEN_LEFT: -50,        // pixels
+    BOWL_START_POSITION: 80,     // pixels from left
     SERVE_ANIMATION_DURATION: 300, // milliseconds
     CUSTOMER_LEAVE_DURATION: 1000  // milliseconds
 };
@@ -18,7 +19,8 @@ const game = {
     customerSpawnInterval: 2000, // milliseconds
     customerTimer: 30,        // seconds before customer leaves
     lastSpawnTime: 0,
-    spawnIntervalId: null     // Store interval ID for cleanup
+    spawnIntervalId: null,    // Store interval ID for cleanup
+    pendingTimeouts: []       // Store timeout IDs for cleanup
 };
 
 // Key mappings for lanes
@@ -44,6 +46,10 @@ function init() {
         clearInterval(game.spawnIntervalId);
         game.spawnIntervalId = null;
     }
+    
+    // Clear any pending timeouts
+    game.pendingTimeouts.forEach(timeoutId => clearTimeout(timeoutId));
+    game.pendingTimeouts = [];
     
     // Start game loop
     requestAnimationFrame(gameLoop);
@@ -74,7 +80,7 @@ function serveSoup(laneIndex) {
     // Create soup bowl
     const bowl = {
         element: createBowlElement(laneIndex),
-        position: 80,
+        position: GAME_CONSTANTS.BOWL_START_POSITION,
         lane: laneIndex
     };
     
@@ -130,6 +136,13 @@ function updateScore() {
 // Game over
 function gameOver() {
     game.isRunning = false;
+    
+    // Clear spawn interval to prevent more customers
+    if (game.spawnIntervalId) {
+        clearInterval(game.spawnIntervalId);
+        game.spawnIntervalId = null;
+    }
+    
     document.getElementById('final-score').textContent = game.score;
     document.getElementById('game-over').classList.add('show');
 }
@@ -172,9 +185,10 @@ function gameLoop() {
             // Check if customer timer ran out
             if (customer.timeRemaining <= 0) {
                 customer.element.classList.add('leaving');
-                setTimeout(() => {
+                const timeoutId = setTimeout(() => {
                     customer.element.remove();
                 }, GAME_CONSTANTS.CUSTOMER_LEAVE_DURATION);
+                game.pendingTimeouts.push(timeoutId);
                 customers.splice(i, 1);
                 gameOver();
                 return;
