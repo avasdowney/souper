@@ -4,51 +4,64 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+    overflow: hidden;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 0.5vh;
+    overflow: hidden;
 }
 
 .game-container {
     background: white;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    padding: 30px;
+    padding: 1.5vh;
     max-width: 1200px;
-    width: 100%;
+    width: 98vw;
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 1vh;
+    flex-shrink: 0;
 }
 
 .header h1 {
     color: #333;
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    font-size: clamp(1.2em, 3vh, 2.5em);
+    margin-bottom: 0.5vh;
 }
 
 .game-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 0.5vh;
+    gap: 1vw;
+    flex-wrap: wrap;
 }
 
 .score {
-    font-size: 1.5em;
+    font-size: clamp(0.9em, 2vh, 1.5em);
     font-weight: bold;
     color: #667eea;
 }
 
 .controls-info {
-    font-size: 1em;
+    font-size: clamp(0.7em, 1.5vh, 1em);
     color: #666;
     font-style: italic;
 }
@@ -57,16 +70,21 @@ body {
     background: #f0f0f0;
     border: 3px solid #333;
     border-radius: 10px;
-    padding: 20px;
+    padding: 1vh;
     position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    gap: 1vh;
 }
 
 .lane {
-    height: 120px;
+    flex: 1;
+    min-height: 0;
     background: linear-gradient(90deg, #fff9e6 0%, #ffe6cc 100%);
     border: 2px solid #b8860b;
     border-radius: 8px;
-    margin-bottom: 15px;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -86,7 +104,7 @@ body {
 }
 
 .player {
-    font-size: 3em;
+    font-size: clamp(1.5em, 5vh, 3em);
     transition: transform 0.1s;
 }
 
@@ -112,7 +130,7 @@ body {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 2.5em;
+    font-size: clamp(1.2em, 4vh, 2.5em);
     transition: left 0.05s linear;
     display: flex;
     flex-direction: column;
@@ -145,7 +163,7 @@ body {
     left: 1050px; /* Must match GAME_CONSTANTS.BOWL_START_POSITION in game.js */
     top: 50%;
     transform: translateY(-50%);
-    font-size: 2em;
+    font-size: clamp(1em, 3.5vh, 2em);
     transition: left 0.05s linear;
 }
 
