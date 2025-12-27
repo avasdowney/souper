@@ -18,6 +18,12 @@ function updateScore() {
 }
 
 function resetGame() {
+    // Remove all customer and bowl elements from DOM
+    for (let lane = 0; lane < 4; lane++) {
+        game.lanes[lane].forEach(customer => customer.element.remove());
+        game.bowls[lane].forEach(bowl => bowl.element.remove());
+    }
+    
     game.score = 0;
     game.isRunning = true;
     game.lanes = [[], [], [], []];
